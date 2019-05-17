@@ -26,9 +26,42 @@ https://cdn.mysql.com//Downloads/MySQL-Cluster-7.5/mysql-cluster-gpl-7.5.14-linu
 将下载后的包上传至服务器/usr/local下
 解压
 # tar xvf mysql-cluster-gpl-7.5.14-linux-glibc2.12-x86_64.tar.gz
+将需要的文件取出
+
+mv mysql-cluster-gpl-7.5.14-linux-glibc2.12-x86_64 /usr/local/mysql
+
+cp /usr/local/bin/ndb_mgm* /usr/local/bin
+
+cd /usr/local/bin
+
+chmod +x ndb_mgm*
+
+新建配置文件并且初始化管理节点
+
+ mkdir /var/lib/mysql-cluster
+ 
+mkdir /usr/local/mysql
+
+ vi /var/lib/mysql-cluster/config.ini
+ 
+[ndbd default]
+NoOfReplicas=2
+DataMemory=512M
+IndexMemory=18M
+
+[ndb_mgmd]
+HostName=172.30.156.220
+DataDir=/var/lib/mysql-cluster
+[ndbd]
+HostName=172.30.156.221
+DataDir=/var/lib/mysql-cluster
+[ndbd]
+HostName=172.30.156.222
+DataDir=/var/lib/mysql-cluster
+
+退出并保存
 
 
-
-
-
-
+ 
+ 
+ 
