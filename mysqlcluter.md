@@ -138,6 +138,10 @@ ndb-connectstring=172.30.156.220`
 
 启动集群节点上面的服务启动mysql（成功会有success） /etc/init.d/mysql.server start
 
+如果 mysql 登录不了或者linux 不支持mysql命令
+
+ ln -s /usr/local/mysql/bin/mysql /usr/bin
+
 启动mysql成功之后请自己登录进mysql内然后进行密码修改等操作，就和正常安装完成mysql的操作一样。需要注意的是，集群数据库的密码需要相同哦！
 
 启动ndbd# /etc/init.d/ndbd --initial如果上述不行使用绝对路径的这个：# /usr/local/mysql/bin/ndbd --initial如果出现下述现象就成功了
