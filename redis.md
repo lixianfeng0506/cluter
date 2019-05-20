@@ -50,6 +50,8 @@ appendonly yes
 
 
 
+
+
 # Redis 集群规范
 1. Redis 集群的目标  
 
