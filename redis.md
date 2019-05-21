@@ -38,18 +38,58 @@ Redis 集群有16384个哈希槽,每个key通过CRC16校验后对16384取模来�
 
 # 搭建并使用Redis集群
 
-下面是一个最少选项的集群的配置文件:
+1  主从复制 模式搭建集群。
 
-port 7000
+  在从节点 配置文件中配置主节点地址及ip
+  slaveof 172.30.156.220 7010     
+  
+  bind 0.0.0.0 
+  
+  特点主从复制，   只能在主节点写数据， 在主节点和从节点读取数据
+   
+  
+  
+
+2 哨兵模式
+
+  哨兵的作用是监控 redis系统的运行状况，他的功能如下
+  
+  监控主从数据库是否正常运行 
+  
+  master出现故障时，自动将slave转化为master
+  
+  多哨兵配置的时候，哨兵之间也会自动监控
+  
+  多个哨兵可以监控同一个redis
+  
+  哨兵模式与主从分离分开  redis配置redis
+  
+  sentinel  
+  
+  优点 主节点挂掉后自动选举主节点。
+  
+  
+  3 redis-cluster搭建
+  
+ 尽管可以使用哨兵主从集群实现可用性保证，但是这种实现方式每个节点的数据都是全量复制，数据存放量存在着局限性，受限于内存最小的节点，因此考虑采用数据分片的方式，来实现存储，这个就是redis-cluster。
+ 
+` port 7005
 cluster-enabled yes
 cluster-config-file nodes.conf
 cluster-node-timeout 5000
 appendonly yes
+daemonize yes
+bind 0.0.0.0
+`
+实现集群 命令 ./redis-cli --cluster create host1:port1  host2:port2 host3:port3  host4:port4 host5:port5 host6:port6  --cluster-replicas 1
+./redis-cli --cluster check host1:port1 
 
 
-
-
-
+./redis-cli --cluster add-node  new_host:new_port existing_host:existing_port --cluster-master-id <arg>
+  
+./redis-cli --cluster add-node  new_host:new_port existing_host:existing_port --cluster-slave
+  
+  
 
 
 # Redis 集群规范
